@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="javax.enterprise.inject.Produces"/>
+    <fullyQualifiedTypeName name="java.awt.PageAttributes.MediaType"/>
+    <fullyQualifiedTypeName name="javax.ws.rs.PathParam"/>
+    <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
+    <fullyQualifiedTypeName name="javax.ws.rs.DELETE"/>
+    <fullyQualifiedTypeName name="com.excode.model.User"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.excode.imp.UserManager"/>
+    <fullyQualifiedTypeName name="com.excode.imp.ExerciseManager"/>
+    <fullyQualifiedTypeName name="com.excode.model.Exercise"/>
+    <fullyQualifiedTypeName name="com.excode.model.Solution"/>
+    <fullyQualifiedTypeName name="java.util.Iterator"/>
+    <fullyQualifiedTypeName name="java.util.Random"/>
+    <fullyQualifiedTypeName name="javax.ws.rs.QueryParam"/>
+    <fullyQualifiedTypeName name="javax.ws.rs.PUT"/>
+    <fullyQualifiedTypeName name="javax.ws.rs.core.UriBuilder"/>
+</qualifiedTypeNameHistroy>

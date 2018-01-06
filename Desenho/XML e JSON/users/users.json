@@ -1,0 +1,18 @@
+{
+    "users": [
+        {
+            "userID": "1",
+            "username": "rqueiros",
+            "password": "professorSD",
+            "email": "rqueiro@xpto.com",
+            "name": "Ricardo Queiros"
+        },
+        {
+            "userID": "2",
+            "username": "mpinto",
+            "password": "professorAED",
+            "email": "mpinto@xpto.com",
+            "name": "Mário Pinto"
+        }
+    ]
+}

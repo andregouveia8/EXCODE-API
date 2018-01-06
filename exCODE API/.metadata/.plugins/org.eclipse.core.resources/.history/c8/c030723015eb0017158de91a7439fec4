@@ -1,0 +1,37 @@
+package com.excode.imp;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.excode.model.Exercise;
+import com.excode.model.User;
+
+public class ExerciseManager {
+
+	static List<Exercise> exercises = new ArrayList<Exercise>();
+	static ExerciseManager exerciseManager = null;
+
+	public static ExerciseManager getInstance() {
+		if(exerciseManager == null) {
+			exerciseManager = new ExerciseManager();
+			
+			User user = new User("andregouveia8", "porto", "asd@xpto.com", "André Gouveia");
+			
+			
+			Exercise exercise1 = new Exercise(1, "18-10-2017 19:30","Factorial", user , "Crie um algoritmo ...","Begginer", 3, null , null, null);
+			Exercise exercise2 = new Exercise(2, "18-10-2017 19:30","Meteo", user , "Crie um algoritmo ...","Begginer", 3, null , null, null);
+			Exercise exercise3 = new Exercise(2, "18-10-2017 19:30","Post", user , "Crie um algoritmo ...","Begginer", 3, null , null, null);
+			
+			exercises.add(exercise1);
+			exercises.add(exercise2);
+			exercises.add(exercise3);
+			
+		}
+		return exerciseManager;
+	}
+	
+	public List<Exercise> getExercises() {
+		return exercises;
+	}
+
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<users>
+    <user userID="1">
+        <username>rqueiros</username>
+        <password>professorSD</password>
+        <email>rqueiros@xptop.com</email>
+        <name>Ricardo Queiros</name>
+    </user>
+    <user userID="2">
+        <username>mpinto</username>
+        <password>professorAED</password>
+        <email>mpinto@xptop.com</email>
+        <name>Mário Pinto</name>
+    </user>
+</users>

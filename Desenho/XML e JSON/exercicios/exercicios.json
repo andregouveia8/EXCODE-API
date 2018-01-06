@@ -1,0 +1,79 @@
+{
+    "exercices": [
+        {
+            "exerciceid": "1",
+            "creationDate": "28-11-2015 19:30", //data
+            "title": "Print Hello + name",
+            "metadata": {
+                "authors": [
+                    {
+                        "userID": "rqueiros",
+                        "password": "professorSD",
+                        "email": "rqueiro@xpto.com",
+                        "name": "Ricardo Queiros"
+                    }
+                ],
+                "statement": "Write an algorithm to print 'Hello' and your name in a separate line.",
+                "difficulty": "Beginner",
+                "duration": "00:01:00", //ou 1 e só permitir minutos
+                "tags": [
+                    {
+                        "tag": "Write"
+                    }
+                ],
+                "solutions": [
+                    {
+                        "code": "using System;using System.Collections.Generic;using System.Linq;using System.Text;using System.Threading.Tasks;namespace Basics_Training{class Program{static void Main(string[] args){Console.WriteLine('Enter your name');string YourName = Console.ReadLine();Console.WriteLine('Hello{0}', YourName);}}}",
+                        "language": "C#"
+                    }
+                ],
+                "testcases": [
+                    {
+                        "input": "",
+                        "output": "Hello John"
+                    }
+                ]
+            }
+        },
+        {
+            "exerciceid": "2",
+            "creationDate": "28-12-2015 19:30", //data
+            "title": "Operation with two numbers",
+            "metadata": {
+                "authors": [
+                    {
+                        "userID": "rqueiros",
+                        "password": "professorSD",
+                        "email": "rqueiro@xpto.com",
+                        "name": "Ricardo Queiros"
+                    }
+                ],
+                "statement": " Write a program to print on screen the output of adding, subtracting, multiplying and dividing of two numbers which will be entered by the user.",
+                "difficulty": "Beginner",
+                "duration": "00:02:00", //ou 5 e só permitir minutos
+                "tags": [
+                    {
+                        "tag": "Sum"
+                    }
+                ],
+                "solutions": [
+                    {
+                        "code": "using System;public class Exercise7{public static void Main(){Console.Write('Enter a number: ');int num1= Convert.ToInt32(Console.ReadLine());Console.Write('Enter another number: ');int num2= Convert.ToInt32(Console.ReadLine());Console.WriteLine('{0} + {1} = {2}', num1, num2, num1+num2);Console.WriteLine('{0} - {1} = {2}', num1, num2, num1-num2);Console.WriteLine('{0} x {1} = {2}', num1, num2, num1*num2);Console.WriteLine('{0} / {1} = {2}', num1, num2, num1/num2);Console.WriteLine('{0} mod {1} = {2}', num1, num2, num1%num2);}}",
+                        "language": "C#"
+                    }
+                ],
+                "testcases": [
+                    {//rever inputs
+                        "inputs": [
+                            {
+                                "first": "10",
+                                "second": "2"
+                            }
+                        ],
+                        "output": "12"
+                    }
+                ]
+            }
+        }
+    ]
+}

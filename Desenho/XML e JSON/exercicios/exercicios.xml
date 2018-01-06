@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<exercices>
+    <exercice exerciceID="1" creationDate="12-10-2017 19:00">
+        <title>Print Hello + name</title>
+        <metadata>
+            <authors>
+                <author userID="rqueiros">
+                    <!-- <userID>rqueiros</userID> -->
+                    <password>professorSD</password>
+                    <email>rqueiro@xpto.com</email>
+                    <name>Ricardo Queiros</name>
+                </author>
+            </authors>
+            <statement>Write an algorithm to print 'Hello' and your name in a separate line</statement>
+            <difficulty>Begginer</difficulty>
+            <duration>00:01:00</duration>
+            <!--1 e so permite minutos-->
+            <tags>
+                <tag>Write</tag>
+            </tags>
+            <solutions>
+                <solution>
+                    <code>
+                        <![CDATA[using System;using System.Collections.Generic;using System.Linq;using System.Text;using System.Threading.Tasks;namespace Basics_Training{class Program{static void Main(string[] args){Console.WriteLine('Enter your name');string YourName = Console.ReadLine();Console.WriteLine('Hello{0}', YourName);}}}]]>
+                    </code>
+                    <language>C#</language>
+                </solution>
+            </solutions>
+            <testcases>
+                <testcase>
+                    <input></input>
+                    <output>Hello John</output>
+                </testcase>
+            </testcases>
+        </metadata>
+    </exercice>
+    <exercice exerciceID="2" creationDate="12-11-2017 19:00">
+        <title>Operation with two numbers</title>
+        <metadata>
+            <authors>
+                <author userID="rqueiros">
+                    <!-- <userID>rqueiros</userID> -->
+                    <password>professorSD</password>
+                    <email>rqueiro@xpto.com</email>
+                    <name>Ricardo Queiros</name>
+                </author>
+            </authors>
+            <statement> Write a program to print on screen the output of adding two numbers which will be entered by the user.</statement>
+            <difficulty>Begginer</difficulty>
+            <duration>00:05:00</duration>
+            <!--5 e so permite minutos-->
+            <tags>
+                <tag>Operations</tag>
+                <tag>Add</tag>
+            </tags>
+            <solutions>
+                <solution>
+                    <code>
+                        <![CDATA[using System;public class Exercise7{public static void Main(){Console.Write('Enter a number: ');int num1= Convert.ToInt32(Console.ReadLine());Console.Write('Enter another number: ');int num2= Convert.ToInt32(Console.ReadLine());Console.WriteLine('{0} + {1} = {2}', num1, num2, num1+num2);}}]]>
+                    </code>
+                    <language>C#</language>
+                </solution>
+            </solutions>
+            <testcases>
+                <testcase>
+                    <inputs>
+                        <input>10</input>
+                        <input>2</input>
+                    </inputs>
+                    <output>12</output>
+                </testcase>
+            </testcases>
+        </metadata>
+    </exercice>
+</exercices>

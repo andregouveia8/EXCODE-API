@@ -1,0 +1,51 @@
+{
+    "errors": [
+        {
+            "errorCode": "1",
+            "description": "Wrong Credentials",
+            "message": "Invalid credentials! Please try again.",
+            "help": "Make sure your credentials are correct and try again."
+        },
+        {
+            "errorCode": "2",
+            "description": "Login Successfully Done",
+            "message": "Login Successfully Done! Welcome to exCODE!",
+            "help": ""
+        },
+        {
+            "errorCode": "3",
+            "description": "Exercise Not Found",
+            "message": "The exercise requested was not found",
+            "help": ""
+        },
+        {
+            "errorCode": "4",
+            "description": "Exercise Successfully Added",
+            "message": "The exercise was successfully added. Thanks for contributing!",
+            "help": ""
+        },
+        {
+            "errorCode": "5",
+            "description": "No Exercises to Present",
+            "message": "The API has no results found.",
+            "help": ""
+        },
+        {
+            "errorCode": "6",
+            "description": "Existing Username",
+            "message": "The username already exists.",
+            "help": "Please choose another username, and try again."
+        },
+        {
+            "errorCode": "7",
+            "description": "User Successfully Added",
+            "message": "User was added successfully. Thank's for helping exCODE API.",
+            "help": ""
+        },{
+            "errorCode": "8",
+            "description": "Access Denied",
+            "message": "You can not access this page.",
+            "help": "To access this page should be user of the API."
+        }
+    ]
+}
