@@ -1,0 +1,58 @@
+$(document).ready(function(){
+
+    //Login Request
+	$("#btn-login").click(function(){
+		$.ajax({
+			  method: "POST",
+			  url: "http://localhost:8081/exCODEAPI/rest/users/auth",
+			  data: { 
+				  username: $("#txtLogin").val(), 
+				  password: $("#txtPass").val(), 
+			  }
+			})
+		  .done(function( msg ) {
+			  console.log("entrei");
+		      console.log("Token: " + msg)
+					localStorage.setItem("token", msg);
+		      window.location.href = "dashboard-myExercises.html";
+		  });
+    });
+    
+    //Create Account Request
+    $("#btn-createAccount").click(function(){
+		$.ajax({
+			  method: "POST",
+			  url: "http://localhost:8081/exCODEAPI/rest/users",
+			  data: { 
+					userID: $("#txtUsername").val(),
+					email: $("#txtEmail").val(),
+					password: $("#txtPassword").val(),
+					nameUser: $("#txtPersonName").val(), 
+			  }
+			})
+		  .done(function(msg) {
+			  console.log("Criado" + msg)
+		  });
+		});
+		
+
+		//Get By Dificulty
+		$("#btn-getDificulty").click(function(){
+			var dificulty = $( "#dificulty option:selected" ).text();
+			var urlRequest = "http://localhost:8081/exCODEAPI/rest/exercises?dificulty=" + dificulty;
+
+			console.log(urlRequest);
+			$.ajax({
+				
+					method: "POST",
+					url: urlRequest
+				})
+				.done(function(data) {
+					console.log("entrei");
+					console.log("Criado" + data)
+				});
+			});
+
+
+
+});

@@ -1,0 +1,118 @@
+package com.excode.model;
+
+import java.util.List;
+
+public class Exercise {
+	
+	public String exerciseID;
+	public String creationDate;
+	public String title;	
+	public User author;
+	public String statement;
+	public String dificulty;
+	public int duration;
+	public String tags;
+	public Solution solution;
+	public TestCase testCase;
+
+	public Exercise(){}
+
+	public Exercise(String exerciseID, String creationDate, String title, User author, String statement,
+			String dificulty, int duration, String tags, Solution solution, TestCase testCase) {
+		super();
+		this.exerciseID = exerciseID;
+		this.creationDate = creationDate;
+		this.title = title;
+		this.author = author;
+		this.statement = statement;
+		this.dificulty = dificulty;
+		this.duration = duration;
+		this.tags = tags;
+		this.solution = solution;
+		this.testCase = testCase;
+	}
+
+	public String getExerciseID() {
+		return exerciseID;
+	}
+
+	public void setExerciseID(String exerciseID) {
+		this.exerciseID = exerciseID;
+	}
+
+	public String getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public User getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(User author) {
+		this.author = author;
+	}
+
+	public String getStatement() {
+		return statement;
+	}
+
+	public void setStatement(String statement) {
+		this.statement = statement;
+	}
+
+	public String getDificulty() {
+		return dificulty;
+	}
+
+	public void setDificulty(String dificulty) {
+		this.dificulty = dificulty;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public Solution getSolution() {
+		return solution;
+	}
+
+	public void setSolution(Solution solution) {
+		this.solution = solution;
+	}
+
+	public TestCase getTestCase() {
+		return testCase;
+	}
+
+	public void setTestCase(TestCase testCase) {
+		this.testCase = testCase;
+	}
+	
+	
+	
+	
+}

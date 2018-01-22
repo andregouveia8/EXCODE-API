@@ -1,0 +1,146 @@
+package com.excode.api;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+
+import com.excode.imp.ExerciseManager;
+import com.excode.imp.UserManager;
+import com.excode.model.User;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+
+@Path("/users")
+public class UsersResource {
+
+	// GET ALL USERS
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<User> getUsers() {
+
+		UserManager userManager = UserManager.getInstance();
+		return userManager.getUsers();
+	}
+
+	// GET USER
+	@Path("/{userID}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<User> getUser(@PathParam("userID") String userID) {
+
+		UserManager userManager = UserManager.getInstance();
+		return userManager.getUser(userID);
+	}
+
+	// DELETE USER
+	@Path("/{userID}")
+	@DELETE
+	public Response deleteUser(@PathParam("userID") String userID, @FormParam("password") String password,
+			@FormParam("token") String token) {
+
+		UserManager userManager = new UserManager();
+
+		try {
+			// Verify JWT token
+			Jwts.parser().setSigningKey(userManager.getKey()).parseClaimsJws(token);
+			// OK, we can trust this JWT
+
+			// Get user data
+			String user_ID = (String) Jwts.parser().setSigningKey(userManager.getKey()).parseClaimsJws(token).getBody()
+					.get("username");
+
+			return userManager.deleteUser(userID, password, user_ID);
+
+		} catch (SignatureException e) {
+			// don't trust the JWT!
+			return Response.serverError().status(401).type("text/plain").entity("No valid token!").build();
+		}
+	}
+
+	// POST A NEW USER
+	@POST
+	@Path("/{userID}")
+	@Consumes("application/x-www-form-urlencoded")
+	public Response insertUser(@PathParam("userID") String userID, @FormParam("email") String email, //Path
+			@FormParam("password") String password, @FormParam("nameUser") String nameUser, @Context UriInfo uriInfo) {
+
+		UserManager userManager = UserManager.getInstance();
+
+		userManager.createUser(userID, email, password, nameUser);
+
+		UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+		builder.path(userID);
+		return Response.created(builder.build()).build();
+
+	}
+
+	// PUT PASSWORD USER
+	@Path("/{userID}")
+	@PUT
+	@Consumes("application/x-www-form-urlencoded")
+	public Response changePassword(@PathParam("userID") String userID, @FormParam("password") String password,@FormParam("passwordNew") String passwordNew, @FormParam("token") String token) {
+		
+		UserManager userManager = new UserManager();
+		
+		try {
+			// Verify JWT token
+			Jwts.parser().setSigningKey(userManager.getKey()).parseClaimsJws(token);
+			// OK, we can trust this JWT
+
+			// Get user data
+			 String userIDAuthour = (String)
+			 Jwts.parser().setSigningKey(userManager.getKey()).parseClaimsJws(token).getBody().get("username");
+			
+			 return userManager.changePassword(userID,password,passwordNew, userIDAuthour);
+
+		} catch (SignatureException e) {
+			// don't trust the JWT!
+			return Response.serverError().status(401).type("text/plain").entity("No valid token!").build();
+		}
+		
+		
+	}
+
+	// POST auth
+	@Path("/auth")
+	@POST
+	public Response auth(@FormParam("username") String userID, @FormParam("password") String password) {
+		UserManager userManager = UserManager.getInstance();
+
+		// Validate user data in db store
+		if (userManager.checkCredentials(userID, password)) {
+
+			// Create user data
+			Map<String, Object> user = new HashMap<String, Object>();
+			user.put("username", userID);
+
+			// Create JWT token
+			String newToken = Jwts.builder().setClaims(user).setIssuer("exCODE API - Programming Exercises")
+					.signWith(SignatureAlgorithm.HS512, userManager.getKey()).compact();
+
+			// Send token to the client
+			return Response.ok().entity(newToken).build();
+		} else {
+			// Invalid user
+			return Response.serverError().status(401).type("text/plain").entity("Invalid User!").build();
+		}
+
+	}
+}

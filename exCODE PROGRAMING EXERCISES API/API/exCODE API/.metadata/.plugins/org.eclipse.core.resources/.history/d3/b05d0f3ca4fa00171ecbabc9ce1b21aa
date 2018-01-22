@@ -1,0 +1,10 @@
+package com.excode.imp;
+
+import java.util.List;
+
+import com.excode.model.Exercise;
+
+public interface IExercise {
+	
+	
+}

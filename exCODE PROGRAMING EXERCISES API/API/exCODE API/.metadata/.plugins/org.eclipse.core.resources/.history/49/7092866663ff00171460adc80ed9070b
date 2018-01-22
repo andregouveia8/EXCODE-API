@@ -1,0 +1,38 @@
+package com.excode.model;
+
+
+public class Error {
+	
+	int errorID;
+	String description;
+	String more;
+	
+	public Error(int id, String description, String more) {
+		super();
+		this.id = id;
+		this.description = description;
+		this.more = more;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getMore() {
+		return more;
+	}
+	public void setMore(String more) {
+		this.more = more;
+	}
+	
+	
+
+}

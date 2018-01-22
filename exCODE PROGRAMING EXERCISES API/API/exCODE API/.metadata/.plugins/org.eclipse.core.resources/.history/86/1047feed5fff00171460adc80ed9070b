@@ -1,0 +1,37 @@
+package com.excode.data;
+
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
+
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+public class ErrorData {
+
+	
+	static ErrorData errorData = null;
+	static MongoCollection<Error> colErrors;
+
+
+	public static ErrorData getInstance() {
+		if (errorData == null) {
+			errorData = new ErrorData();
+
+			CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
+					fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+			MongoClient mongoClient = new MongoClient("localhost",
+					MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
+			MongoDatabase dbUser = mongoClient.getDatabase("db");
+			colErrors = dbUser.getCollection("Error", Error.class);
+		}
+		return errorData;
+	}
+	
+	
+	
+}

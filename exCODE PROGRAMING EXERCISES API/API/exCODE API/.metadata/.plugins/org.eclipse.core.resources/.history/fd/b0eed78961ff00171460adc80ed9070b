@@ -1,0 +1,36 @@
+package com.excode.imp;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.excode.data.ErrorData;
+import com.excode.data.UserData;
+import com.excode.model.User;
+
+public class ErrorManager {
+
+	static List<Error> errors = new ArrayList<Error>();
+
+	static ErrorManager errorManager = null;
+
+	public static ErrorManager getInstance() {
+		if (errorManager == null) {
+			errorManager = new ErrorManager();
+
+		}
+		return errorManager;
+	}
+
+	// GET ALL USERS
+	public List<Error> getErrors() {
+		ErrorData errorData = ErrorData.getInstance();
+		return errorData.getErrors();
+	}
+
+	// GET ALL USERS
+	public List<Error> getErrors(String errorID) {
+		ErrorData errorData = ErrorData.getInstance();
+		return errorData.getErrorID(errorID);
+	}
+
+}

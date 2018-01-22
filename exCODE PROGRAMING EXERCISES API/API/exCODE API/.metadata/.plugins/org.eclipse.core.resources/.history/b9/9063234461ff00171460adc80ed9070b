@@ -1,0 +1,20 @@
+package com.excode.imp;
+
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
+
+import com.excode.data.ErrorData;
+import com.excode.data.ExerciseData;
+import com.excode.model.Exercise;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+public class ErrorManager {
+	
+
+	
+	
+
+}

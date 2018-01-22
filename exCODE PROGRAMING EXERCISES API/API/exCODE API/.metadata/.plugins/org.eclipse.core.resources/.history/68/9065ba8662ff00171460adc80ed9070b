@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>exCODE API - PROGRAMMING EXERCISES</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+
+            //AUTHENTICATION REQUEST
+            $("#btnAuthentication").click(function () {
+                var userID = $("#txtUsernameLogin").val();
+                $.ajax({
+                    method: "POST",
+                    url: "http://localhost:8081/exCODEAPI/rest/users/auth",
+                    data: {
+                        username: userID,
+                        password: $("#txtPasswordLogin").val(),
+                    }
+                })
+                    .done(function (msg) {
+                        localStorage.setItem("token", msg);
+                        localStorage.setItem("username", userID);
+                        window.location.href = "app.html";
+                    });
+            });
+
+            //CREATE ACCOUNT REQUEST
+            $("#btn-createAccount").click(function () {
+                $.ajax({
+                    method: "POST",
+                    url: "http://localhost:8081/exCODEAPI/rest/users",
+                    data: {
+                        userID: $("#txtUsername").val(),
+                        email: $("#txtEmail").val(),
+                        password: $("#txtPassword").val(),
+                        nameUser: $("#txtPersonName").val(),
+                    }
+                })
+                    .done(function (msg) {
+                        console.log("Criado" + msg)
+                    });
+            });
+
+
+            //GET ALL EXERCISES
+            $("#btnExercises").click(function () {
+                urlbase = "http://localhost:8081/exCODEAPI/rest/exercises/"
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:8081/exCODEAPI/rest/exercises",
+                })
+                    .done(function (data) {
+                        trHead = "<tr><th>Title</th><th>Dificulty</th><th>Language</th><th>More</th></tr>"
+                        $("#allExercises").append(trHead);
+
+                        $.each(data, function (i, obj) {
+                            urlX = urlbase + obj.exerciseID
+                            trTemp = "<tr><td>" + obj.title + "</td><td>" +
+                                obj.dificulty + "</td><td>" +
+                                obj.solution.language + "</td><td><a href=" + urlX + ">See More</a></td></tr>";
+                            $("#allExercises").append(trTemp);
+                        });
+                    });
+            });
+
+            //GET ALL EXERCISES by DIFICULTY (Pro)
+            $("#btnExercisesPro").click(function () {
+                urlbase = "http://localhost:8081/exCODEAPI/rest/exercises/"
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:8081/exCODEAPI/rest/exercises?dificulty=Pro",
+                })
+                    .done(function (data) {
+                        $("#allExercisesDificulty").empty();
+                        trHead = "<tr><th>Title</th><th>Dificulty</th><th>Language</th><th>More</th></tr>"
+                        $("#allExercisesDificulty").append(trHead);
+                        $.each(data, function (i, obj) {
+                            urlX = urlbase + obj.exerciseID
+                            trTemp = "<tr><td>" + obj.title + "</td><td>" +
+                                obj.dificulty + "</td><td>" +
+                                obj.solution.language + "</td><td><a href=" + urlX + ">See More</a></td></tr>";
+                            $("#allExercisesDificulty").append(trTemp);
+                        });
+                    });
+            });
+
+            //GET ALL EXERCISES by DIFICULTY (Begginer)
+            $("#btnExercisesBegginer").click(function () {
+                urlbase = "http://localhost:8081/exCODEAPI/rest/exercises/"
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:8081/exCODEAPI/rest/exercises?dificulty=Begginer",
+                })
+                    .done(function (data) {
+                        $("#allExercisesDificulty").empty();
+                        trHead = "<tr><th>Title</th><th>Dificulty</th><th>Language</th><th>More</th></tr>"
+                        $("#allExercisesDificulty").append(trHead);
+                        $.each(data, function (i, obj) {
+                            urlX = urlbase + obj.exerciseID
+                            trTemp = "<tr><td>" + obj.title + "</td><td>" +
+                                obj.dificulty + "</td><td>" +
+                                obj.solution.language + "</td><td><a href=" + urlX + ">See More</a></td></tr>";
+                            $("#allExercisesDificulty").append(trTemp);
+                        });
+                    });
+            });
+
+            //GET ALL EXERCISES by DURATION (10)
+            $("#btnExercises10").click(function () {
+                urlbase = "http://localhost:8081/exCODEAPI/rest/exercises/"
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:8081/exCODEAPI/rest/exercises?duration=10",
+                })
+                    .done(function (data) {
+                        $("#allExercisesDuration").empty();
+                        trHead = "<tr><th>Title</th><th>Dificulty</th><th>Language</th><th>More</th></tr>"
+                        $("#allExercisesDuration").append(trHead);
+                        $.each(data, function (i, obj) {
+                            urlX = urlbase + obj.exerciseID
+                            trTemp = "<tr><td>" + obj.title + "</td><td>" +
+                                obj.dificulty + "</td><td>" +
+                                obj.solution.language + "</td><td><a href=" + urlX + ">See More</a></td></tr>";
+                            $("#allExercisesDuration").append(trTemp);
+                        });
+                    });
+            });
+
+            //GET ALL EXERCISES by DURATION (30)
+            $("#btnExercises30").click(function () {
+                urlbase = "http://localhost:8081/exCODEAPI/rest/exercises/"
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:8081/exCODEAPI/rest/exercises?duration=30",
+                })
+                    .done(function (data) {
+                        $("#allExercisesDuration").empty();
+                        trHead = "<tr><th>Title</th><th>Dificulty</th><th>Language</th><th>More</th></tr>"
+                        $("#allExercisesDuration").append(trHead);
+                        $.each(data, function (i, obj) {
+                            urlX = urlbase + obj.exerciseID
+                            trTemp = "<tr><td>" + obj.title + "</td><td>" +
+                                obj.dificulty + "</td><td>" +
+                                obj.solution.language + "</td><td><a href=" + urlX + ">See More</a></td></tr>";
+                            $("#allExercisesDuration").append(trTemp);
+                        });
+                    });
+            });
+
+
+            //GET ALL EXERCISES by DIFICULTY (Begginer)
+            $("#btnExercisesBegginer").click(function () {
+                urlbase = "http://localhost:8081/exCODEAPI/rest/exercises/"
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:8081/exCODEAPI/rest/exercises?dificulty=Begginer",
+                })
+                    .done(function (data) {
+                        $("#allExercisesDificulty").empty();
+                        trHead = "<tr><th>Title</th><th>Dificulty</th><th>Language</th><th>More</th></tr>"
+                        $("#allExercisesDificulty").append(trHead);
+                        $.each(data, function (i, obj) {
+                            urlX = urlbase + obj.exerciseID
+                            trTemp = "<tr><td>" + obj.title + "</td><td>" +
+                                obj.dificulty + "</td><td>" +
+                                obj.solution.language + "</td><td><a href=" + urlX + ">See More</a></td></tr>";
+                            $("#allExercisesDificulty").append(trTemp);
+                        });
+                    });
+            });
+
+            //GET ALL EXERCISES by LANGUAGE (Java)
+            $("#btnExercisesJava").click(function () {
+                urlbase = "http://localhost:8081/exCODEAPI/rest/exercises/"
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:8081/exCODEAPI/rest/exercises?language=Java",
+                })
+                    .done(function (data) {
+                        $("#allExercisesLanguage").empty();
+                        trHead = "<tr><th>Title</th><th>Dificulty</th><th>Language</th><th>More</th></tr>"
+                        $("#allExercisesLanguage").append(trHead);
+                        $.each(data, function (i, obj) {
+                            urlX = urlbase + obj.exerciseID
+                            trTemp = "<tr><td>" + obj.title + "</td><td>" +
+                                obj.dificulty + "</td><td>" +
+                                obj.solution.language + "</td><td><a href=" + urlX + ">See More</a></td></tr>";
+                            $("#allExercisesLanguage").append(trTemp);
+                        });
+                    });
+            });
+
+
+            $("#btnExercisesJavaScript").click(function () {
+                urlbase = "http://localhost:8081/exCODEAPI/rest/exercises/"
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:8081/exCODEAPI/rest/exercises?language=JavaScript",
+                })
+                    .done(function (data) {
+                        $("#allExercisesLanguage").empty();
+                        trHead = "<tr><th>Title</th><th>Dificulty</th><th>Language</th><th>More</th></tr>"
+                        $("#allExercisesLanguage").append(trHead);
+                        $.each(data, function (i, obj) {
+                            urlX = urlbase + obj.exerciseID
+                            trTemp = "<tr><td>" + obj.title + "</td><td>" +
+                                obj.dificulty + "</td><td>" +
+                                obj.solution.language + "</td><td><a href=" + urlX + ">See More</a></td></tr>";
+                            $("#allExercisesLanguage").append(trTemp);
+                        });
+                    });
+            });
+
+
+
+
+        });
+    </script>
+</head>
+
+<body>
+    <h1>exCODE API - PROGRAMMING EXERCISES!</h1>
+
+    <h3>Login</h3>
+
+    <input id="txtUsernameLogin" type="text" placeholder="Enter username" />
+    <br/>
+    <input id="txtPasswordLogin" type="password" placeholder="Enter password" />
+    <br/>
+    <input id="btnAuthentication" type="button" value="LOGIN" />
+    <br/>
+
+    <h3>Create Account</h3>
+
+    <form>
+        <div class="form-group">
+            <input type="text" class="form-control" id="txtUsername" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="txtPersonName" placeholder="Enter name">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="txtEmail" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="txtPassword" placeholder="Enter password">
+        </div>
+        <button id="btn-createAccount" type="submit">CREATED</button>
+    </form>
+
+    <h3>Get All Exercises</h3>
+    <input id="btnExercises" type="button" value="Get All Exercises" />
+    <table id="allExercises" style="border: 1px solid black"></table>
+    <br/>
+
+    <h3>Get by Dificulty</h3>
+    <input id="btnExercisesPro" type="button" value="Pro" />
+    <input id="btnExercisesBegginer" type="button" value="Begginer" />
+
+    <table id="allExercisesDificulty" style="border: 1px solid black"></table>
+
+    <h3>Get by Duration</h3>
+    <input id="btnExercises10" type="button" value="10 Minutes" />
+    <input id="btnExercises30" type="button" value="30 Minutes" />
+
+    <table id="allExercisesDuration" style="border: 1px solid black"></table>
+
+    <h3>Get by Tag</h3>
+    <input id="btnExercises" type="button" value="asd" />
+    <input id="btnExercises" type="button" value="asd" />
+
+    <h3>Get by Language</h3>
+    <input id="btnExercisesJava" type="button" value="Java" />
+    <input id="btnExercisesJavaScript" type="button" value="JavaScript" />
+
+    <table id="allExercisesLanguage" style="border: 1px solid black"></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Category:
+	<select id="sltCategory" name="sltCategory">
+		<option value="all">ALL</option>
+		<option value="arcade">ARCADE</option>
+		<option value="simulation">SIMULATION</option>
+		<option value="FPS">FPS</option>
+	</select>
+	<input id="btnSearch" type="button" value="SEARCH"/>
+	<br/>
+	<table id="tblGames" style="border: solid 1px black">
+		
+	</table>
+	<hr>
+	<form action="api/games" method="POST">
+		TITLE: <input id="txtTitle" name="title" type="text"/><br/>
+		COMPANY: <input id="txtCompany" name="company" type="text"/><br/>
+		YEAR: <input id="txtYear" name="year" type="text"/><br/>
+		CATEGORY: 
+		<select id="sltMyCategory" name="category">
+			<option value="arcade">ARCADE</option>
+			<option value="simulation">SIMULATION</option>
+			<option value="FPS">FPS</option>
+		</select><br/>
+		<input id="btnInsert" type="button" value="SUBMIT"/>
+		<input id="btnRemove" type="button" value="REMOVE"/>
+	</form> -->
+</body>
+
+</html>

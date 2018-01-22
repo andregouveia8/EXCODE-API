@@ -1,0 +1,102 @@
+package com.excode.data;
+
+import static com.mongodb.client.model.Filters.eq;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
+
+import com.excode.model.Exercise;
+import com.excode.model.User;
+import com.mongodb.Block;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+public class UserData {
+	
+	static UserData userData = null;
+	static MongoCollection<User> colUsers;
+	
+
+	ExerciseData gameData = ExerciseData.getInstance();
+	
+
+	public static UserData getInstance() {
+		if (userData == null) {
+			userData = new UserData();
+
+			CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+			MongoClient mongoClient = new MongoClient("localhost", MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
+			MongoDatabase dbUser = mongoClient.getDatabase("db");
+			colUsers = dbUser.getCollection("User", User.class);
+		}
+		return userData;
+	}
+
+	
+	//GET ALL USERS
+	public List<User> getUsers() {
+		final List<User> users = new ArrayList<User>();
+		Block<User> printBlock = new Block<User>() {
+		    public void apply(final User user) {
+		    	users.add(user);
+		    }
+		};
+		colUsers.find().forEach(printBlock);
+		return users;
+	}
+	
+	//GET A SPECIFIC USER
+	public List<User> getUser(String userID) {
+		final List<User> users = new ArrayList<User>();
+		Block<User> printBlock = new Block<User>() {
+			public void apply(final User user) {
+				users.add(user);
+			}
+		};
+		colUsers.find(eq("userID", userID)).forEach(printBlock);
+
+		return users;
+	}
+
+	//DELETE USER
+	public void removeUser(String userID) {
+		colUsers.deleteOne(eq("userID", userID));
+	}
+
+	//POST NEW USER
+	public void insertUser(User user) {
+		if(colUsers.find(eq("userID", user.getUserID())).first() == null) {			
+			colUsers.insertOne(user);
+		}
+		
+	}
+
+	public boolean checkCredentials(String userID, String password) {
+		
+		final List<User> users = new ArrayList<User>();
+		Block<User> printBlock = new Block<User>() {
+			public void apply(final User user) {
+				users.add(user);
+			}
+		};
+		colUsers.find(and(eq("userID", userID)),eq("password", password)).forEach(printBlock);
+		
+	}
+	
+	
+	//CHANGE USER
+	
+	
+	
+	
+	
+	
+	
+}

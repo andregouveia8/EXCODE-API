@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>exCODE API - PROGRAMMING EXERCISES</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            var myToken;
+            if (localStorage.token == null) {
+                myToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ";
+            } else {
+                myToken = localStorage.token;
+                userLogged = localStorage.username;
+                console.log(userLogged)
+            }
+
+
+            //CHANGE ACCOUNT PASSWORD REQUEST
+            $("#btnChangeAccountPassword").click(function () {
+                userID = $("#txtUsernameChangeUserID").val();
+                var urlRequest = "http://localhost:8081/exCODEAPI/rest/users/" + userID;
+                $.ajax({
+                    method: "PUT",
+                    url: urlRequest,
+                    data: {
+
+                        password: $("#txtPasswordChangePassword").val(),
+                        passwordNew: $("#txtNewPasswordChangePassword").val(),
+                        token: myToken
+                    }
+                })
+                    .done(function (data) {
+                    });
+            });
+
+
+            //DELETE ACCOUNT REQUEST
+            $("#btnDeleteAccount").click(function () {
+                userID = $("#txtUsernameDeleteAccount").val();
+                var urlRequest = "http://localhost:8081/exCODEAPI/rest/users/" + userID;
+                $.ajax({
+                    method: "DELETE",
+                    url: urlRequest,
+                    data: {
+
+                        password: $("#txtPasswordDeleteAccount").val(),
+                        token: myToken
+                    }
+                })
+                    .done(function (data) {
+                        localStorage.clear();
+                        window.location.href = "index.html";
+                    });
+            });
+
+            //CREATE EXERCISE REQUEST
+            $("#btnNewExercise").click(function () {
+                var urlRequest = "http://localhost:8081/exCODEAPI/rest/exercises";
+                $.ajax({
+                    method: "POST",
+                    url: urlRequest,
+                    data: {
+
+                        exerciseID: $("#txtExerciseIDNewExercise").val(),
+                        title: $("#txtTitleNewExercise").val(),
+                        statement: $("#txtStatementNewExercise").val(),
+                        dificulty: $("#dificulty").val(),
+                        duration: $("#duration").val(),
+                        tag1: $("#txtTagNewExercise").val(),
+                        code: $("#txtResolutionNewExercise").val(),
+                        language: $("#language").val(),
+                        input: $("#txtInputNewExercise").val(),
+                        output: $("#txtOutputNewExercise").val(),
+                        token: myToken
+                    }
+                })
+                    .done(function (data) {
+                        console.log("Exercise created")
+
+                    }).fail(function (data) {
+                        console.log("Login to create exercises")
+                    });
+            });
+
+
+            //GET ALL EXERCISES
+            $("#btnSeeExercise").click(function () {
+                urlbase = "http://localhost:8081/exCODEAPI/rest/exercises/"
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:8081/exCODEAPI/rest/exercises",
+                })
+                    .done(function (data) {
+
+                        if (data[0].exerciseID != null) {
+                            trHead = "<tr><th>Title</th><th>Dificulty</th><th>Language</th><th>ExerciseID</th></tr>"
+                            $("#allExercisesDel").append(trHead);
+
+                            $.each(data, function (i, obj) {
+                                var autor = obj.author.userID;
+                                if (autor == userLogged) {
+                                    urlX = urlbase + obj.exerciseID
+                                    trTemp = "<tr><td>" + obj.title + "</td><td>" +
+                                        obj.dificulty + "</td><td>" +
+                                        obj.solution.language + "</td><td>" + obj.exerciseID + "</td></tr>";
+                                    $("#allExercisesDel").append(trTemp);
+                                }
+                            });
+                        } else if (data.exerciseID != null){
+                            console.log("nao ha");
+                        }
+
+
+
+
+                    });
+            });
+
+            $("#btnDelExercise").click(function () {
+
+                var exerciseID = $("#txtExerciseIDDel").val();
+                $.ajax({
+                    method: "DELETE",
+                    url: "http://localhost:8081/exCODEAPI/rest/exercises/" + exerciseID,
+                    data: {
+                        token: myToken
+                    }
+                })
+                    .done(function (data) { });
+
+
+            });
+
+            $("#btnlogout").click(function () {
+
+
+                localStorage.clear();
+                window.location.href = "index.html";
+
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+    <div class="jumbotron text-center" style="background-color:#1e1e1e">
+        <img src="img/logo.png" alt="Smiley face">
+        <br>
+        <br>
+        <a id="btnlogout" style="color:#3cc47c; text-decoration:none">Log out</a>
+
+    </div>
+    <div class="row">
+
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+
+            <h3>Change Password</h3>
+
+            <input id="txtUsernameChangeUserID" class="form-control" type="text" placeholder="Enter username" />
+            <br/>
+            <input id="txtPasswordChangePassword" class="form-control" type="password" placeholder="Enter password" />
+            <br/>
+            <input id="txtNewPasswordChangePassword" class="form-control" type="password" placeholder="New password" />
+            <br/>
+            <input id="btnChangeAccountPassword" class="form-control" type="button" value="CHANGE" style="color:#ffffff;background-color:#3cc47c "
+            />
+            <br/>
+
+            <h3>Delete Account</h3>
+
+            <input id="txtUsernameDeleteAccount" class="form-control" type="text" placeholder="Enter username" />
+            <br/>
+            <input id="txtPasswordDeleteAccount" class="form-control" type="password" placeholder="Enter password" />
+            <br/>
+            <input id="btnDeleteAccount" class="form-control" type="button" value="DELETE" style="color:#ffffff;background-color:#3cc47c "
+            />
+            <br/>
+
+
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-8">
+
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+
+                <h3>New Exercise</h3>
+
+                <input id="txtExerciseIDNewExercise" class="form-control" type="text" placeholder="Enter exerciseID" />
+                <br/>
+                <input id="txtTitleNewExercise" class="form-control" type="text" placeholder="Enter Title" />
+                <br/>
+                <textarea id="txtStatementNewExercise" class="form-control" placeholder="Enter Statement"></textarea>
+                <br/>
+                <textarea id="txtResolutionNewExercise" class="form-control" placeholder="Enter Resolution"></textarea>
+
+
+                <br> Dificulty
+                <select id="dificulty" class="form-control">
+                    <option value="Begginer">Begginer</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Pro">Pro</option>
+                    <option value="Expert">Expert</option>
+                </select>
+                <br> Durartion
+
+                <select id="duration" class="form-control">
+
+                    <option value="15">15 Minutos</option>
+                    <option value="30">30 Minutos</option>
+                    <option value="60">1 Hora</option>
+                    <option value="90">1 Hora e Meia</option>
+                    <option value="91">+1 Hora e Meia</option>
+                </select>
+                <br> Language
+                <select id="language" class="form-control">
+                    <option value="Java">Java</option>
+                    <option value="CSharp">C#</option>
+                    <option value="CPlus">C++</option>
+                    <option value="HTML">HTML</option>
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="Php">PHP</option>
+                    <option value="VbNet">VB NET</option>
+                </select>
+                <br>
+                <input id="txtTagNewExercise" class="form-control" type="text" placeholder="Enter Tag" />
+                <br/>
+                <input id="txtInputNewExercise" class="form-control" type="text" placeholder="Enter Input" />
+                <br/>
+                <input id="txtOutputNewExercise" class="form-control" type="text" placeholder="Enter Output" />
+                <br/>
+                <input id="btnNewExercise" class="form-control" type="button" value="SUBMIT" style="color:#ffffff;background-color:#3cc47c "
+                />
+                <br/>
+
+
+                <h3>Delete Exercise</h3>
+                <input id="btnSeeExercise" class="form-control" type="button" value="See All Exercises" style="color:#ffffff;background-color:#3cc47c "
+                />
+                <br/>
+                <table id="allExercisesDel" class="table table-borded table striped"></table>
+                <br>
+
+                <input id="txtExerciseIDDel" class="form-control" type="text" placeholder="Enter ExerciseID to remove" />
+
+                <input id="btnDelExercise" class="form-control" type="button" value="DELETE" style="color:#ffffff;background-color:#3cc47c "
+                />
+                <br/>
+
+            </div>
+            <div class="col-md-2"></div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

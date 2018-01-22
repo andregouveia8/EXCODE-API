@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>GAME SERVICE</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+
+        //GET ALL EXERCISES by USER
+
+
+        // $(document).ready(function () {
+        //     $("#btnSubmit1").click(function () {
+
+        //         var myToken;
+        //         var exerciseID = $("#txtExerciseID1").val();
+        //         if (localStorage.token == null) {
+        //             myToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ";
+        //         } else {
+        //             myToken = localStorage.token;
+        //         }
+
+
+        //         $.ajax({
+
+        //             exerciseID: $("#txtExerciseID").val(),
+
+        //             method: "DELETE",
+        //             url: "http://localhost:8081/exCODEAPI/rest/exercises/" + exerciseID,
+        //             data: {
+
+        //                 token: myToken
+
+        //             }
+        //         })
+        //             .done(function (msg) {
+        //                 console.log("Exercise Delete");
+
+        //             });
+        //     });
+
+
+        //     $(document).ready(function () {
+        //         $("#btnSubmit2").click(function () {
+
+        //             var myToken;
+        //             var userID = $("#txtUserID1").val();
+        //             if (localStorage.token == null) {
+        //                 myToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ";
+        //             } else {
+        //                 myToken = localStorage.token;
+        //             }
+
+
+        //             $.ajax({
+
+
+
+        //                 method: "DELETE",
+        //                 url: "http://localhost:8081/exCODEAPI/rest/users/" + userID,
+        //                 data: {
+
+        //                     token: myToken,
+        //                     password: $("#txtPassword1").val()
+
+        //                 }
+        //             })
+        //                 .done(function (msg) {
+        //                     console.log("User Delete");
+
+        //                 });
+        //         });
+        //     });
+
+
+
+
+        //     $("#btnSubmit").click(function () {
+
+        //         var myToken;
+        //         if (localStorage.token == null) {
+        //             myToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ";
+        //         } else {
+        //             myToken = localStorage.token;
+        //         }
+
+
+        //         $.ajax({
+        //             method: "POST",
+        //             url: "http://localhost:8081/exCODEAPI/rest/exercises",
+        //             data: {
+        //                 exerciseID: $("#txtExerciseID").val(),
+        //                 title: $("#txtTitle").val(),
+        //                 statement: $("#txtStatement").val(),
+        //                 dificulty: $("#selectDificulty").val(),
+        //                 duration: $("#selectDuration").val(),
+        //                 tags: $("#txtTags").val(),
+        //                 code: $("#txtCode").val(),
+        //                 language: $("#txtStatement").val(),
+        //                 input: $("#txtInput").val(),
+        //                 output: $("#txtOutput").val(),
+        //                 token: myToken
+
+        //             }
+        //         })
+        //             .done(function (msg) {
+        //                 console.log("Exercise Done");
+
+        //             });
+        //     });
+        
+        
+        
+        
+        $("#btnSubmit2").click(function () {
+
+                 var myToken;
+                 if (localStorage.token == null) {
+                    myToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ";
+                 } else {
+                    myToken = localStorage.token;
+                }
+
+
+                 $.ajax({
+                	 
+                	 userID = $("#txtUserID2").val();
+                	 
+                	 
+                	 
+                     method: "POST",
+                     url: "http://localhost:8081/exCODEAPI/rest/users/" + userID,
+                     data: {
+                         
+                    	 password: $("#txtPassword1").val();
+                	 newPassword: $("#txtPassword2").val();
+                         token: myToken
+
+                     }
+                 })
+                     .done(function (msg) {
+                         console.log("Exercise Done");
+
+                    });
+             });
+        
+        
+        
+        
+        // });
+    </script>
+</head>
+
+<body>
+
+    <h3> VER TODOS OS EXERCICIOS </h3>
+    <br>
+    <div>
+        <table id="tableAllExercises"></table>
+    </div>
+
+
+
+
+
+
+
+
+<!-- 
+
+    <h1>exCODE Exercise!</h1>
+    Exercise ID:
+    <input id="txtExerciseID" type="text" />
+    <br/> Title:
+    <input id="txtTitle" type="text" />
+    <br/> Statement:
+    <input id="txtStatement" type="text" />
+    <br/> Dificulty:
+    <select id="selectDificulty">
+        <option value="Begginer">Begginer</option>
+        <option value="Normal">Normal</option>
+        <option value="Pro">Pro</option>
+        <option value="Expert">Expert</option>
+    </select>
+    <br> Duration:
+    <select id="selectDuration">
+        <option value="30">30 Minutos</option>
+        <option value="15">15 Minutos</option>
+        <option value="60">1 Hora</option>
+        <option value="90">1 Hora e Meia</option>
+        <option value="91">+1 Hora e Meia</option>
+
+    </select>
+    <br> Tags:
+    <input id="txtTags" type="text" />
+    <br> Code:
+    <input id="txtCode" type="text" />
+    <br> Language
+    <select id="selectLanguage">
+        <option value="Java">Java</option>
+        <option value="CSharp">CSharp</option>
+        <option value="JavaScript">JavaScript</option>
+    </select>
+    <br>Input:
+    <input id="txtInput" type="text" />
+    <br>Output:
+    <input id="txtOutput" type="text" />
+    <input id="btnSubmit" type="button" value="SUBMIT" />
+    <br/>
+
+
+
+    <h1>exCODE Remove Exercise!</h1>
+    Exercise ID:
+    <input id="txtExerciseID1" type="text" />
+    <input id="btnSubmit1" type="button" value="SUBMIT" />
+    <br/>
+
+
+    <h1>exCODE Remove User!</h1>
+    User ID:
+    <input id="txtUserID1" type="text" />
+    <br> Password:
+    <input id="txtPassword1" type="text" />
+    <input id="btnSubmit2" type="button" value="SUBMIT" />
+    <br/> -->
+    
+     <h1>exCODE Update User!</h1>
+    User ID:
+    <input id="txtUserID2" type="text" />
+    <br> Password:
+    <input id="txtPassword1" type="text" />
+    <br> NewPassword:
+    <input id="txtPassword2" type="text" />
+    <input id="btnSubmit3" type="button" value="SUBMIT" />
+    <br/> 
+
+
+
+
+
+</body>
+
+</html>

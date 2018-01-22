@@ -1,0 +1,31 @@
+package com.excode.imp;
+
+import java.util.List;
+
+import com.excode.model.Exercise;
+
+public interface IExercise {
+	
+	public List<Exercise> getExercises();
+	
+	
+	public List<Exercise> getExercisesDificulty(String dificulty);
+	public List<Exercise> getExercisesDuration(int duration);
+	public List<Exercise> getExercisesLanguage(String language);
+	public List<Exercise> getExercisesTag(String tag);
+	public List<Exercise> getExercisesUser(String userID);
+	
+	public void createExercise(String exerciseID, String title, String userID, String statement, String dificulty,
+			int duration, String[] tags, String code, String language, String[] input, String output);
+	
+	public void changeExercise(String userID, String statement, String dificulty,
+			int duration, String[] tags, String code, String language, String[] input, String output);
+	
+	
+	
+	
+	
+	
+	
+	
+}

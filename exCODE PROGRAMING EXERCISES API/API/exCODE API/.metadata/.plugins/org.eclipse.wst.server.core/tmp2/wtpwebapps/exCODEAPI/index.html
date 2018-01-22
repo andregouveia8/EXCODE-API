@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>exCODE API - PROGRAMMING EXERCISES</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            //AUTHENTICATION REQUEST
+            $("#btnAuthentication").click(function () {
+                var userID = $("#txtUsernameLogin").val();
+                $.ajax({
+                    method: "POST",
+                    url: "http://localhost:8081/exCODEAPI/rest/users/auth",
+                    data: {
+                        username: userID,
+                        password: $("#txtPasswordLogin").val(),
+                    }
+                })
+                    .done(function (msg) {
+                        localStorage.setItem("token", msg);
+                        localStorage.setItem("username", userID);
+                        window.location.href = "app.html";
+                    });
+            });
+
+            //CREATE ACCOUNT REQUEST
+            $("#btn-createAccount").click(function () {
+                $.ajax({
+                    method: "POST",
+                    url: "http://localhost:8081/exCODEAPI/rest/users",
+                    data: {
+                        userID: $("#txtUsername").val(),
+                        email: $("#txtEmail").val(),
+                        password: $("#txtPassword").val(),
+                        name: $("#txtPersonName").val(),
+                    }
+                })
+                    .done(function (msg) {
+                        console.log("Criado" + msg)
+                    });
+            });
+
+
+            //GET ALL EXERCISES by DIFICULTY (Begginer)
+            $("#btnExercisesDificulty").click(function () {
+                urlbase = "http://localhost:8081/exCODEAPI/rest/exercises/"
+                dificulty = $("#dificulty").val();
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:8081/exCODEAPI/rest/exercises?dificulty="+ dificulty,
+                })
+                    .done(function (data) {
+                        $("#allExercisesDificulty").empty();
+                        $("#divDificulty").empty();
+                        trHead = "<tr><th>Title</th><th>Dificulty</th><th>Language</th><th>More</th></tr>"
+                        $("#allExercisesDificulty").append(trHead);
+                        $.each(data, function (i, obj) {
+                            urlX = urlbase + obj.exerciseID
+                            trTemp = "<tr><td>" + obj.title + "</td><td>" +
+                                obj.dificulty + "</td><td>" +
+                                obj.solution.language + "</td><td><a href=" + urlX + ">" +urlX +"</a></td></tr>";
+                            $("#allExercisesDificulty").append(trTemp);
+                        });
+                    });
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+
+    <div class="jumbotron text-center" style="background-color:#1e1e1e">
+        <img src="img/logo.png" alt="Smiley face" ><br><br>
+        <a href="https://app.swaggerhub.com/apis/exCODE/exCODEAPI/exCode1.0"style="color:#3cc47c; text-decoration:none">DOCUMENTATION</a>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <form>
+                <input id="txtUsernameLogin" class="form-control" type="text" placeholder="Enter username" />
+                <br/>
+                <input id="txtPasswordLogin" class="form-control" type="password" placeholder="Enter password" />
+                <br/>
+                <input id="btnAuthentication" class="form-control" type="button" value="LOGIN" style="color:#ffffff;background-color:#3cc47c "
+                />
+            </form>
+
+        </div>
+        <div class="col-md-4"></div>
+
+    </div>
+
+
+    <div class="row">
+
+
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <br>
+            <h3>CREATE ACCOUNT</h3>
+            <br>
+            <form>
+
+                <input type="text" class="form-control" id="txtUsername" placeholder="Enter username">
+
+                <br/>
+                <input type="text" class="form-control" id="txtPersonName" placeholder="Enter name">
+
+                <br/>
+                <input type="text" class="form-control" id="txtEmail" placeholder="Enter email">
+                <br/>
+
+                <input type="text" class="form-control" id="txtPassword" placeholder="Enter password">
+                <br/>
+                <input id="btn-createAccount" class="form-control" type="button" value="CREATE" style="color:#ffffff;background-color:#3cc47c "
+                />
+            </form>
+
+        </div>
+        <div class="col-md-4"></div>
+
+    </div>
+
+    <br/>
+
+    <div class="row" id="divDificulty">
+
+
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+
+            <h3>Get by Dificulty</h3>
+            <select id="dificulty">
+                <option value="Begginer">Begginer</option>
+                <option value="Normal">Normal</option>
+                <option value="Pro">Pro</option>
+                <option value="Expert">Expert</option>
+            </select>
+            <input id="btnExercisesDificulty" class="form-control" type="button" value="CREATE" style="color:#ffffff;background-color:#3cc47c "/>
+			
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    
+    <div class="row">
+     <div class="col-md-2"></div> <div class="col-md-8">
+     <table id="allExercisesDificulty" class ="table table-borded table striped"></table> 
+     </div> <div class="col-md-2"></div>
+    
+    </div>
+</body>
+
+</html>

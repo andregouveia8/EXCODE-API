@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>exCODE API - PROGRAMMING EXERCISES</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            var myToken;
+            if (localStorage.token == null) {
+                myToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ";
+            } else {
+                myToken = localStorage.token;
+                userLogged = localStorage.username;
+                console.log(userLogged)
+            }
+
+
+            //CHANGE ACCOUNT PASSWORD REQUEST
+            $("#btnChangeAccountPassword").click(function () {
+                userID = $("#txtUsernameChangeUserID").val();
+                var urlRequest = "http://localhost:8081/exCODEAPI/rest/users/" + userID;
+                $.ajax({
+                    method: "PUT",
+                    url: urlRequest,
+                    data: {
+
+                        password: $("#txtPasswordChangePassword").val(),
+                        passwordNew: $("#txtNewPasswordChangePassword").val(),
+                        token: myToken
+                    }
+                })
+                    .done(function (data) {
+                    });
+            });
+
+
+            //DELETE ACCOUNT REQUEST
+            $("#btnDeleteAccount").click(function () {
+                userID = $("#txtUsernameDeleteAccount").val();
+                var urlRequest = "http://localhost:8081/exCODEAPI/rest/users/" + userID;
+                $.ajax({
+                    method: "DELETE",
+                    url: urlRequest,
+                    data: {
+
+                        password: $("#txtPasswordDeleteAccount").val(),
+                        token: myToken
+                    }
+                })
+                    .done(function (data) {
+                    });
+            });
+
+          //CREATE EXERCISE REQUEST
+            $("#btnNewExercise").click(function () {
+                var urlRequest = "http://localhost:8081/exCODEAPI/rest/exercises";
+                $.ajax({
+                    method: "POST",
+                    url: urlRequest,
+                    data: {
+
+                        exerciseID: $("#txtExerciseIDNewExercise").val(),
+                        title: $("#txtTitleNewExercise").val(),
+                        statement: $("#txtStatementNewExercise").val(),
+                        dificulty: $("#dificulty").val(),
+                        duration: $("#duration").val(),
+                        tag1: $("#txtTagNewExercise").val(),
+                        code: $("#txtResolutionNewExercise").val(),
+                        language: $("#language").val(),
+                        input: $("#txtInputNewExercise").val(),
+                        output: $("#txtOutputNewExercise").val(),
+                        token: myToken
+                    }
+                })
+                    .done(function (data) {
+                    });
+            });
+
+
+            //GET ALL EXERCISES
+            $("#btnSeeExercise").click(function () {
+                urlbase = "http://localhost:8081/exCODEAPI/rest/exercises/"
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:8081/exCODEAPI/rest/exercises",
+                })
+                    .done(function (data) {
+                        trHead = "<tr><th>Title</th><th>Dificulty</th><th>Language</th><th>ExerciseID</th></tr>"
+                        $("#allExercisesDel").append(trHead);
+
+                        $.each(data, function (i, obj) {
+                            var autor = obj.author.userID;
+                            if (autor == userLogged) {
+                                urlX = urlbase + obj.exerciseID
+                                trTemp = "<tr><td>" + obj.title + "</td><td>" +
+                                    obj.dificulty + "</td><td>" +
+                                    obj.solution.language + "</td><td>" + obj.exerciseID + "</td></tr>";
+                                $("#allExercisesDel").append(trTemp);
+                            }
+                        });
+                    });
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+    <h1 id="idUser">Bem vindo, </h1>
+
+
+    <h3>Change Password</h3>
+
+    <input id="txtUsernameChangeUserID" type="text" placeholder="Enter username" />
+    <br/>
+    <input id="txtPasswordChangePassword" type="password" placeholder="Enter password" />
+    <br/>
+    <input id="txtNewPasswordChangePassword" type="password" placeholder="New password" />
+    <br/>
+    <input id="btnChangeAccountPassword" type="button" value="CHANGE" />
+    <br/>
+
+    <h3>Delete Account</h3>
+
+    <input id="txtUsernameDeleteAccount" type="text" placeholder="Enter username" />
+    <br/>
+    <input id="txtPasswordDeleteAccount" type="password" placeholder="Enter password" />
+    <br/>
+    <input id="btnDeleteAccount" type="button" value="DELETE" />
+    <br/>
+
+
+
+    <h3>New Exercise</h3>
+
+    <input id="txtExerciseIDNewExercise" type="text" placeholder="Enter exerciseID" />
+    <br/>
+    <input id="txtTitleNewExercise" type="text" placeholder="Enter Title" />
+    <br/>
+    <textarea id="txtStatementNewExercise" placeholder="Enter Statement"></textarea>
+    <br/>
+    <textarea id="txtResolutionNewExercise" placeholder="Enter Resolution"></textarea>
+
+
+    <br> Dificulty
+    <select name="dificulty" id="">
+        <option value="Begginer">Begginer</option>
+        <option value="Normal">Normal</option>
+        <option value="Pro">Pro</option>
+        <option value="Expert">Expert</option>
+    </select>
+    <br> Durartion
+
+    <select name="duration" id="">
+
+        <option value="15">15 Minutos</option>
+        <option value="30">30 Minutos</option>
+        <option value="60">1 Hora</option>
+        <option value="90">1 Hora e Meia</option>
+        <option value="91">+1 Hora e Meia</option>
+    </select>
+    <br> Language
+    <select name="language" id="">
+        <option value="Java">Java</option>
+        <option value="CSharp">C#</option>
+        <option value="CPlus">C++</option>
+        <option value="HTML">HTML</option>
+        <option value="JavaScript">JavaScript</option>
+        <option value="Php">PHP</option>
+        <option value="VbNet">VB NET</option>
+    </select>
+    <br>
+    <input id="txtTagNewExercise" type="text" placeholder="Enter Tag" />
+    <br/>
+    <input id="txtInputNewExercise" type="text" placeholder="Enter Input" />
+    <br/>
+    <input id="txtOutputNewExercise" type="text" placeholder="Enter Output" />
+    <br/>
+    <input id="btnNewExercise" type="button" value="SUBMIT" />
+    <br/>
+
+
+    <h3>Delete Exercise</h3>
+    <input id="btnSeeExercise" type="button" value="See All Exercises" />
+    <br/>
+    <table id="allExercisesDel" style="border: 1px solid black"></table>
+    <br>
+
+    <input id="txtExerciseIDDel" type="text" placeholder="Enter Tag" />
+
+    <input id="btnDelExercise" type="button" value="DELETE" />
+    <br/>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

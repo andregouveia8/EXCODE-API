@@ -1,0 +1,13 @@
+package com.excode.api;
+
+import javax.ws.rs.Path;
+
+@Path("/errors")
+public class ErrorsResource {
+
+	
+	
+	
+	
+	
+}

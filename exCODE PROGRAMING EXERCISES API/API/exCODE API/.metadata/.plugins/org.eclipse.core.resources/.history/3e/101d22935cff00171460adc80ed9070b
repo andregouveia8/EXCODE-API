@@ -1,0 +1,5 @@
+package com.excode.model;
+
+public class Error {
+
+}

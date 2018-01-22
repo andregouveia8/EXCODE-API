@@ -1,0 +1,96 @@
+$(document).ready(function () {
+
+	//Login Request
+	$("#btn-login").click(function () {
+		$.ajax({
+			method: "POST",
+			url: "http://localhost:8081/exCODEAPI/rest/users/auth",
+			data: {
+				username: $("#txtLogin").val(),
+				password: $("#txtPass").val(),
+			}
+		})
+			.done(function (msg) {
+				console.log("entrei");
+				console.log("Token: " + msg)
+				localStorage.setItem("token", msg);
+				window.location.href = "dashboard-myExercises.html";
+			});
+	});
+
+	//Create Account Request
+	$("#btn-createAccount").click(function () {
+		$.ajax({
+			method: "POST",
+			url: "http://localhost:8081/exCODEAPI/rest/users",
+			data: {
+				userID: $("#txtUsername").val(),
+				email: $("#txtEmail").val(),
+				password: $("#txtPassword").val(),
+				nameUser: $("#txtPersonName").val(),
+			}
+		})
+			.done(function (msg) {
+				console.log("Criado" + msg)
+			});
+	});
+
+
+	// //Get By Dificulty
+	// $("#btn-getDificulty").click(function () {
+	// 	var dificulty = $("#dificulty").val();
+	// 	var urlRequest = "http://localhost:8081/exCODEAPI/rest/exercises?dificulty=" + dificulty;
+
+	// 	console.log(urlRequest);
+	// 	$.getJSON(urlRequest, function (data) {
+	// 		$("#containerDificulty").empty();
+	// 		$.each(data, function (i, field) {
+	// 				var txtHtml = "<div class='jumbotron'>";
+	// 				txtHtml += "<h1>" + field.title + "</h1>";
+	// 				txtHtml += "<p>" + field.statement + "</p>";
+	// 				txtHtml += "<p>" + field.dificulty + "</p>";
+	// 				txtHtml += "</div>";
+	// 				$(".container").append(txtHtml);
+	// 		});
+
+
+	// 	});
+	// });
+
+
+
+	//Create Account Request
+	$("#btn-deleteAccount").click(function () {
+
+		var myToken;
+		var userID = $("#usernameDel").val();
+		if (localStorage.token == null) {
+			myToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ";
+		} else {
+			myToken = localStorage.token;
+		}
+
+
+		$.ajax({
+
+
+
+			method: "DELETE",
+			url: "http://localhost:8081/exCODEAPI/rest/users/" + userID,
+			data: {
+
+				token: myToken,
+				password: $("#passwordDel").val()
+
+			}
+		})
+			.done(function (msg) {
+				console.log("User Delete");
+
+			});
+	});
+
+
+
+
+});

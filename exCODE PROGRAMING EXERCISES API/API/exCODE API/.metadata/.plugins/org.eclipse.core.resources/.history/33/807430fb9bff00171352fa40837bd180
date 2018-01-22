@@ -1,0 +1,78 @@
+package com.excode.imp;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.excode.data.ErrorData;
+import com.excode.model.Failure;
+
+
+
+public class ErrorManager {
+	
+//	static List<Error> errors = new ArrayList<Error>();
+//	
+//	static ErrorManager errorManager = null;
+//	
+//	public static ErrorManager getInstance() {
+//		
+//		if(errorManager == null) {
+//			
+//			errorManager = new ErrorManager();
+//			
+//			Error error1 = new Error(1,"Wrong Credentials","This Credentials are wrong");
+//			Error error2= new Error(2,"Login Sucess","Login");
+//			Error error3 = new Error(3,"ntp","This Credentials are wrong");
+//			Error error4 = new Error(4,"cria","This Credentials are wrong");
+//			Error error5 = new Error(5,"rem","This Credentials are wrong");
+//			Error error6 = new Error(6,"username","This Credentials are wrong");
+//			
+//			errors.add(error1);
+//			errors.add(error2);
+//			errors.add(error3);
+//			errors.add(error4);
+//			errors.add(error5);
+//			errors.add(error6);
+//			
+//			
+//		}
+//		return errorManager;
+//	}
+//	
+//	//RETURN ALL ERRORS
+//	public List<Error> getErrors(){
+//		return errors;
+//	}
+//	
+//	//RETURN A SPECIFIC ERROR
+	
+	
+
+	static List<Failure> errors = new ArrayList<Failure>();
+
+	static ErrorManager errorManager = null;
+
+	public static ErrorManager getInstance() {
+		if (errorManager == null) {
+			errorManager = new ErrorManager();
+
+		}
+		return errorManager;
+	}
+	
+	// GET ALL USERS
+		public List<Failure> getErrors() {
+			ErrorData errorData = ErrorData.getInstance();
+			return errorData.getErrors();
+		}
+		
+		// GET ALL USERS
+				public List<Failure> getErrorID(int errorID) {
+					ErrorData errorData = ErrorData.getInstance();
+					return errorData.getErrorsID(errorID);
+				}
+	
+
+
+
+}

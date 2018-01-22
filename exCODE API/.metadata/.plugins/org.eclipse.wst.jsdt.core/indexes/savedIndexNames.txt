@@ -1,7 +1,0 @@
-INDEX VERSION 1.4+C:\Users\ANDRE\Desktop\exCODE API\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-55110097.index
-3956078432.index
-1014618626.index
-1733591602.index
-3734634347.index
-1568718418.index

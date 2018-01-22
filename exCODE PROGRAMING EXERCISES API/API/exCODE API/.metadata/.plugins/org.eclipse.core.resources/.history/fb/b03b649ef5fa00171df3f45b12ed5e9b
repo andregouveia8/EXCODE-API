@@ -1,0 +1,105 @@
+package com.excode.imp;
+
+import java.security.Key;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.excode.data.UserData;
+import com.excode.model.Solution;
+import com.excode.model.TestCase;
+import com.excode.model.User;
+
+import io.jsonwebtoken.impl.crypto.MacProvider;
+
+
+
+public class UserManager implements IUser {
+
+	static List<User> users = new ArrayList<User>();
+	List<String> listTags = new ArrayList<String>();
+	List<String> listInputs = new ArrayList<String>();
+	List<String> listOutputs = new ArrayList<String>();
+	static Key key;
+
+	static UserManager userManager = null;
+
+	public static UserManager getInstance() {
+		if (userManager == null) {
+			userManager = new UserManager();
+			key = MacProvider.generateKey();
+		}
+		return userManager;
+	}
+
+	//GET ALL USERS
+	public List<User> getUsers() {
+		UserData userData = UserData.getInstance();
+		return userData.getUsers();
+	}
+
+	// GET A USER = USERID
+	public List<User> getUser(String userID) {
+		UserData userData = UserData.getInstance();
+		return userData.getUser(userID);		
+	}
+	
+	
+	//DELETE A USER = USERID
+	public void deleteUser(String userID) {
+		UserData userData = UserData.getInstance();			
+		userData.removeUser(userID);
+	}
+
+	
+	//POST USER
+	public void createUser(String userID, String email, String password, String nameUser) {
+	
+		UserData userData = UserData.getInstance();	
+		userData.insertUser(new User(userID, email, password, nameUser));		
+		
+	}
+	
+	public Key getKey() {
+		return key;
+	}
+
+	public boolean checkCredentials(String userID, String password) {
+		
+		UserData userData = UserData.getInstance();	
+		return userData.checkCredentials(userID, password);
+	
+	}
+
+	
+	public void createExercise(String exerciseID, String title, String token, String statement, String dificulty,
+			int duration, String tags, String code, String language, String input, String output) {
+		
+		
+		
+		
+		
+		
+		
+
+		String [] tags_split = tags.split(" ");
+		Collections.addAll(listTags, tags_split);
+		
+		String [] inputs_split = tags.split(" ");
+		Collections.addAll(listInputs, inputs_split);
+		
+		String [] output_split = tags.split(" ");
+		Collections.addAll(listOutputs, output_split);
+		
+		System.out.println(listTags);
+		
+		Solution solution = new Solution(code,language);
+		TestCase testCase= new TestCase(listInputs,listOutputs);
+		
+	}
+
+
+
+	
+
+}

@@ -1,0 +1,132 @@
+package com.excode.api;
+
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+
+import com.excode.imp.ExerciseManager;
+import com.excode.imp.UserManager;
+import com.excode.model.Exercise;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureException;
+
+@Path("/exercises")
+public class ExercisesResource {
+
+	// GET EXERCISES BY DIFICULTY - TAG - DURATION - LANGUAGE OR ALL
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Exercise> getGamesDificulty(@QueryParam("dificulty") String dificulty, @QueryParam("tag") String tag,
+			@QueryParam("duration") int duration, @QueryParam("language") String language) {
+
+		ExerciseManager exerciseManager = ExerciseManager.getInstance();
+
+		if (dificulty != null) {
+			return exerciseManager.getExercisesDificulty(dificulty);
+		} else if (tag != null) {
+			return exerciseManager.getExercisesTag(tag);
+		} else if (duration > 0) {
+			return exerciseManager.getExercisesDuration(duration);
+		} else if (language != null) {
+			return exerciseManager.getExercisesLanguage(language);
+		}
+		return exerciseManager.getExercises();
+	}
+
+	// GET A SPECIFIC EXERCISE by exerciseID
+	@Path("/{exerciseID}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Exercise> getExercise(@PathParam("exerciseID") String exerciseID) {
+
+		ExerciseManager exerciseManager = ExerciseManager.getInstance();
+		return exerciseManager.getExercise_ID(exerciseID);
+
+	}
+
+	// GET ALL EXERCISES BY USERS
+	@Path("/users/{userID}")
+	@GET
+	public List<Exercise> getExercisesUser(@PathParam("userID") String userID) {
+		ExerciseManager exerciseManager = ExerciseManager.getInstance();
+		return exerciseManager.getExercisesUser(userID);
+
+	}
+
+	// DELETE A SPECIFIC EXERCISE
+	@Path("/{exerciseID}")
+	@DELETE
+	public Response removeExercise(@PathParam("exerciseID") String exerciseID, @FormParam("token") String token) {
+
+		UserManager userManager = new UserManager();
+		ExerciseManager exerciseManager = ExerciseManager.getInstance();
+
+		try {
+			// Verify JWT token
+			Jwts.parser().setSigningKey(userManager.getKey()).parseClaimsJws(token);
+			// OK, we can trust this JWT
+
+			// Get user data
+			String userIDAuthour = (String) Jwts.parser().setSigningKey(userManager.getKey()).parseClaimsJws(token)
+					.getBody().get("username");
+
+			exerciseManager.removeExercise(exerciseID, userIDAuthour);
+			return Response.serverError().status(200).type("text/plain").entity("Exercise Removed").build();
+
+		} catch (SignatureException e) {
+			// don't trust the JWT!
+			return Response.serverError().status(401).type("text/plain").entity("You do not have permissions!").build();
+		}
+
+	}
+
+	// POST A NEW EXERCISE
+	@POST
+	@Consumes("application/x-www-form-urlencoded")
+	public Response insertExercise(@FormParam("exerciseID") String exerciseID, @FormParam("title") String title,
+			@FormParam("token") String token, @FormParam("statement") String statement,
+			@FormParam("dificulty") String dificulty, @FormParam("duration") int duration,
+			@FormParam("tag1") String tag, @FormParam("code") String code, @FormParam("language") String language,
+			@FormParam("input") String input, @FormParam("output") String output, @Context UriInfo uriInfo) {
+
+		UserManager userManager = new UserManager();
+		ExerciseManager exerciseManager = ExerciseManager.getInstance();
+
+		try {
+			// Verify JWT token
+			Jwts.parser().setSigningKey(userManager.getKey()).parseClaimsJws(token);
+			// OK, we can trust this JWT
+
+			// Get user data
+			String userIDAuthour = (String) Jwts.parser().setSigningKey(userManager.getKey()).parseClaimsJws(token)
+					.getBody().get("username");
+
+			exerciseManager.createExercise(exerciseID, title, userIDAuthour, statement, dificulty, duration, tag, code,
+					language, input, output);
+
+			UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+			builder.path(exerciseID);
+			return Response.created(builder.build()).build();
+
+		} catch (SignatureException e) {
+			// don't trust the JWT!
+			return Response.serverError().status(401).type("text/plain").entity("You do not have permissions!").build();
+		}
+
+	}
+
+}

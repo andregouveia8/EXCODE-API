@@ -1,0 +1,55 @@
+package com.excode.data;
+
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
+
+import com.mongodb.Block;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+public class ErrorData {
+
+	
+	static ErrorData errorData = null;
+	static MongoCollection<Error> colErrors;
+
+
+	public static ErrorData getInstance() {
+		if (errorData == null) {
+			errorData = new ErrorData();
+
+			CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
+					fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+			MongoClient mongoClient = new MongoClient("localhost",
+					MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
+			MongoDatabase dbErrors = mongoClient.getDatabase("db");
+			colErrors = dbErrors.getCollection("Error", Error.class);
+		}
+		return errorData;
+	}
+	
+	// GET ALL ERRORS
+		public List<Error> getErrors() {
+			final List<Error> errors = new ArrayList<Error>();
+			Block<Error> printBlock = new Block<Error>() {
+				
+				public void apply(final Error user) {
+					errors.add(user);System.out.println("err1");
+				}
+			};
+			System.out.println("err");
+			colErrors.find().forEach(printBlock);
+			return errors;
+		}
+
+
+
+}

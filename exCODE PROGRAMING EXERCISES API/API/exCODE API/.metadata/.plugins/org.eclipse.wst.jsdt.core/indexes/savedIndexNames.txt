@@ -1,0 +1,8 @@
+INDEX VERSION 1.4+C:\Users\Andre Gouveia\Desktop\exCODE API v8.1\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+595660902.index
+1733591602.index
+653607390.index
+1964151869.index
+1308843858.index
+866011560.index
+228803681.index
